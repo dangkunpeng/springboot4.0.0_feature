@@ -5,5 +5,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "app.info.dfm")
-public class EnvDfmProperty extends EnvDetail {
+public class EnvDfmProperty extends EnvInfo {
 }

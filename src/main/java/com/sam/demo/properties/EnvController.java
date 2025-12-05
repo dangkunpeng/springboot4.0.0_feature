@@ -19,22 +19,22 @@ public class EnvController {
 
 
     @RequestMapping("/recon")
-    public EnvDetail getReconEnv() {
+    public EnvInfo getReconEnv() {
         return envRECONProperty;
     }
 
     @RequestMapping("/snow")
-    public EnvDetail getSnowEnv() {
+    public EnvInfo getSnowEnv() {
         return envSnowProperty;
     }
 
     @RequestMapping("/dfm")
-    public EnvDetail getDfmEnv() {
+    public EnvInfo getDfmEnv() {
         return envDfmProperty;
     }
 
     @RequestMapping("/all")
-    public List<EnvDetail> getAllEnv() {
+    public List<EnvInfo> getAllEnv() {
         return Lists.newArrayList(envProperty.getSnow(), envProperty.getDfm(), envProperty.getRecon());
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "app.info")
 public class EnvProperty {
 
-    private EnvDetail recon;
-    private EnvDetail snow;
-    private EnvDetail dfm;
+    private EnvInfo recon;
+    private EnvInfo snow;
+    private EnvInfo dfm;
 }

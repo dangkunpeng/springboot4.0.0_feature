@@ -5,5 +5,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "app.info.snow")
-public class EnvSnowProperty extends EnvDetail {
+public class EnvSnowProperty extends EnvInfo {
 }

@@ -5,5 +5,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "app.info.recon")
-public class EnvRECONProperty extends EnvDetail {
+public class EnvRECONProperty extends EnvInfo {
 }
