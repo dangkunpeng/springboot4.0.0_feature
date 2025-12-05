@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnvInfo {
-    private String serverName;
-    private String envServer;
-    private String envUrl;
-    private String envUserNm;
-    private String envPassWd;
+    private String name;
+    private String server;
+    private String url;
+    private String userNm;
+    private String passWd;
 
 }

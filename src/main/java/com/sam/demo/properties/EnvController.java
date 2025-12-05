@@ -1,7 +1,9 @@
 package com.sam.demo.properties;
 
 import com.google.common.collect.Lists;
+import com.sam.demo.utils.JsonUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,22 +21,25 @@ public class EnvController {
 
 
     @RequestMapping("/recon")
-    public EnvInfo getReconEnv() {
-        return envRECONProperty;
+    public ResponseEntity<String> getReconEnv() {
+        return ResponseEntity.ok(envRECONProperty.toString());
     }
 
     @RequestMapping("/snow")
-    public EnvInfo getSnowEnv() {
-        return envSnowProperty;
+    public ResponseEntity<String> getSnowEnv() {
+        return ResponseEntity.ok(JsonUtil.toJsonString(envSnowProperty));
     }
 
     @RequestMapping("/dfm")
-    public EnvInfo getDfmEnv() {
-        return envDfmProperty;
+    public ResponseEntity<String> getDfmEnv() {
+        return ResponseEntity.ok(envDfmProperty.getServer() + " - " + envDfmProperty.getUrl());
     }
 
     @RequestMapping("/all")
-    public List<EnvInfo> getAllEnv() {
-        return Lists.newArrayList(envProperty.getSnow(), envProperty.getDfm(), envProperty.getRecon());
+    public ResponseEntity<String> getAllEnv() {
+        return ResponseEntity.ok(JsonUtil.toJsonString(Lists.newArrayList(
+                envProperty.getSnow(),
+                envProperty.getDfm(),
+                envProperty.getRecon())));
     }
 }
