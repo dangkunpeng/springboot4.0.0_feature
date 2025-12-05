@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnvDetail {
+public class EnvInfo {
     private String serverName;
     private String envServer;
     private String envUrl;
