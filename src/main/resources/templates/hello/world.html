@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>Monte Carlo PI 估算</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; margin: 16px; }
+        #controls { margin-bottom: 12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;width:50%; }
+        label { font-size:14px; }
+        input[type="number"] { width:100px; padding:4px; }
+        button { padding:6px 10px; }
+        #stats { margin-top:8px; font-size:14px; }
+        canvas { border:1px solid #ccc; display:block; background:#fff;align:center; }
+    </style>
+</head>
+<body>
+<h3>蒙特卡洛估算 π</h3>
+<div id="controls">
+    <label>每批生成点数：
+        <input id="batchSize" type="number" value="1000" min="1" />
+    </label>
+    <button id="singleBtn">单次生成</button>
+    <button id="startStopBtn">开始</button>
+    <button id="clearBtn">清除</button>
+    <label>点大小：
+        <input id="pointSize" type="number" value="1" min="1" max="4" />
+    </label>
+</div>
+<canvas id="canvas" width="700" height="700"></canvas>
+
+<div id="stats">
+    当前 π 估计：<span id="pi">0</span>
+    <hr>
+    总点数：<span id="total">0</span>　
+    圆内点：<span id="inside">0</span>　
+    　
+    耗时(ms)：<span id="elapsed">0</span>　
+    速度(pts/s)：<span id="rate">0</span>
+</div>
+<script src="/hello/world.js" th:inline="javascript"></script>
+<script>
+
+</script>
+</body>
+</html>
