@@ -12,9 +12,7 @@ set APP_VERSION=@project.version@
 set JAR_FILE=%APP_NAME%.jar
 
 REM Java 配置
-if "%JAVA_HOME%"=="" (
-    set JAVA_HOME=C:\Program Files\Java\jdk-17
-)
+
 set JAVA_OPTS=-server -Xms512m -Xmx2048m -XX:MaxMetaspaceSize=512m
 set JAVA_OPTS=%JAVA_OPTS% -XX:+UseG1GC -XX:MaxGCPauseMillis=200
 set JAVA_OPTS=%JAVA_OPTS% -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=.\logs\heapdump.hprof
@@ -38,7 +36,8 @@ if not exist "%CONFIG_DIR%" mkdir "%CONFIG_DIR%"
 
 REM 构建 classpath
 set CLASSPATH=%JAR_FILE%
-for %%i in ("%LIB_DIR%\*.jar") do (
+REM 递归添加 lib 及其子目录下的所有 jar 到 classpath（包含 lib/spring）
+for /R "%LIB_DIR%" %%i in ("*.jar") do (
     set CLASSPATH=!CLASSPATH!;%%i
 )
 
@@ -62,9 +61,9 @@ goto HELP
             if !errorlevel! equ 0 (
                 echo [WARN] %APP_NAME% 已经在运行 (PID: %%p)
                 exit /b 0
-            ) else (
-                del "%PID_FILE%"
             )
+            REM 如果上面的 PID 不在运行，则删除 PID 文件
+            del "%PID_FILE%"
         )
     )
 
@@ -76,7 +75,7 @@ goto HELP
     REM 启动应用
     start /b "" "%JAVA_HOME%\bin\java.exe" %JAVA_OPTS% ^
         -cp "%CLASSPATH%" ^
-        -Dloader.path="%LIB_DIR%" ^
+        -Dloader.path="%LIB_DIR%;%LIB_DIR%\spring" ^
         org.springframework.boot.loader.PropertiesLauncher ^
         %APP_OPTS% ^
         > "%LOG_DIR%\console.log" 2>&1
@@ -117,7 +116,8 @@ goto HELP
             tasklist /FI "PID eq %%p" 2>nul | findstr /c:"%%p" >nul
             if !errorlevel! equ 0 (
                 echo [INFO] %APP_NAME% 正在运行 (PID: %%p)
-            ) else (
+            )
+            if !errorlevel! neq 0 (
                 echo [INFO] %APP_NAME% 已停止
                 del "%PID_FILE%"
             )

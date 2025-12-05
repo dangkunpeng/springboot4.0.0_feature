@@ -79,36 +79,36 @@
         </dependency>
     </dependencies>
 
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <annotationProcessorPaths>-->
-<!--                        <path>-->
-<!--                            <groupId>org.projectlombok</groupId>-->
-<!--                            <artifactId>lombok</artifactId>-->
-<!--                        </path>-->
-<!--                    </annotationProcessorPaths>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <excludes>-->
-<!--                        <exclude>-->
-<!--                            <groupId>org.projectlombok</groupId>-->
-<!--                            <artifactId>lombok</artifactId>-->
-<!--                        </exclude>-->
-<!--                    </excludes>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <annotationProcessorPaths>-->
+    <!--                        <path>-->
+    <!--                            <groupId>org.projectlombok</groupId>-->
+    <!--                            <artifactId>lombok</artifactId>-->
+    <!--                        </path>-->
+    <!--                    </annotationProcessorPaths>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.springframework.boot</groupId>-->
+    <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <excludes>-->
+    <!--                        <exclude>-->
+    <!--                            <groupId>org.projectlombok</groupId>-->
+    <!--                            <artifactId>lombok</artifactId>-->
+    <!--                        </exclude>-->
+    <!--                    </excludes>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
     <build>
-        <finalName>${project.artifactId}-${project.version}-original</finalName>
+        <!--        <finalName>${project.artifactId}-${project.version}-original</finalName>-->
 
         <plugins>
             <!-- 1. Spring Boot Maven Plugin -->
@@ -148,10 +148,10 @@
                     <!-- 不附加 assembly id 到文件名 -->
                     <appendAssemblyId>false</appendAssemblyId>
 
-<!--                    &lt;!&ndash; 使用自定义描述符 &ndash;&gt;-->
-<!--                    <descriptors>-->
-<!--                        <descriptor>src/assembly/package.xml</descriptor>-->
-<!--                    </descriptors>-->
+                    <!--                    &lt;!&ndash; 使用自定义描述符 &ndash;&gt;-->
+                    <!--                    <descriptors>-->
+                    <!--                        <descriptor>src/assembly/package.xml</descriptor>-->
+                    <!--                    </descriptors>-->
 
                     <!-- 或使用内联配置 -->
                     <descriptorRefs>
@@ -217,6 +217,7 @@
                             <sort>true</sort>
                         </configuration>
                     </execution>
+
                 </executions>
             </plugin>
 

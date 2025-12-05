@@ -31,11 +31,17 @@ PID_FILE="$BASE_DIR/$APP_NAME.pid"
 mkdir -p "$LOG_DIR"
 mkdir -p "$CONFIG_DIR"
 
-# 构建 classpath
+# 构建 classpath：递归添加 lib 及其子目录下的所有 jar（包含 lib/spring）
 CLASSPATH="$BASE_DIR/$JAR_FILE"
-for jar in "$LIB_DIR"/*.jar; do
-    CLASSPATH="$CLASSPATH:$jar"
-done
+if command -v find > /dev/null 2>&1; then
+    while IFS= read -r -d '' jar; do
+        CLASSPATH="$CLASSPATH:$jar"
+    done < <(find "$LIB_DIR" -type f -name '*.jar' -print0)
+else
+    for jar in "$LIB_DIR"/*.jar "$LIB_DIR"/*/*.jar; do
+        [ -f "$jar" ] && CLASSPATH="$CLASSPATH:$jar"
+    done
+fi
 
 # 颜色输出
 RED='\033[0;31m'
@@ -88,7 +94,7 @@ start() {
     # 启动命令
     nohup "$JAVA_HOME/bin/java" $JAVA_OPTS \
         -cp "$CLASSPATH" \
-        -Dloader.path="$LIB_DIR" \
+        -Dloader.path="$LIB_DIR,$LIB_DIR/spring" \
         org.springframework.boot.loader.PropertiesLauncher \
         $APP_OPTS \
         > "$LOG_DIR/console.log" 2>&1 &
