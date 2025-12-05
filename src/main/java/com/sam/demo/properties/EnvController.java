@@ -1,6 +1,6 @@
 package com.sam.demo.properties;
 
-import com.google.common.collect.Lists;
+import com.sam.demo.utils.FmtUtils;
 import com.sam.demo.utils.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +13,21 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/env")
 @RequiredArgsConstructor
 public class EnvController {
+
+    private static final String ENV_DESC = """
+            version={},
+            dfm ={},
+            snow ={},
+            recon ={},
+            """;
     private final EnvProperty envProperty;
     @Autowired
     private Map<String, EnvInfo> envPropertyMap;
 
-    @RequestMapping("/env/{envName}")
+    @RequestMapping("/byName/{envName}")
     public ResponseEntity<String> getReconEnv(@PathVariable String envName) {
         EnvInfo envInfo = envPropertyMap.get(envName);
         if (envInfo == null) {
@@ -30,11 +37,13 @@ public class EnvController {
     }
 
 
-    @RequestMapping("/env/all")
+    @RequestMapping("/all")
     public ResponseEntity<String> getAllEnv() {
-        return ResponseEntity.ok(JsonUtil.toJsonString(Lists.newArrayList(
-                envProperty.getSnow(),
-                envProperty.getDfm(),
-                envProperty.getRecon())));
+        String version = envProperty.getVersion();
+        String snow = JsonUtil.toJsonString(envProperty.getSnow());
+        String dfm = JsonUtil.toJsonString(envProperty.getDfm());
+        String recon = JsonUtil.toJsonString(envProperty.getRecon());
+
+        return ResponseEntity.ok(FmtUtils.fmtMsg(ENV_DESC, version, dfm, snow, recon));
     }
 }
