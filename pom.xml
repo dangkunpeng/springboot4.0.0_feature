@@ -108,7 +108,7 @@
 <!--        </plugins>-->
 <!--    </build>-->
     <build>
-        <finalName>${project.artifactId}-${project.version}</finalName>
+        <finalName>${project.artifactId}-${project.version}-original</finalName>
 
         <plugins>
             <!-- 1. Spring Boot Maven Plugin -->
@@ -117,7 +117,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!-- 打包为可执行JAR -->
-                    <executable>true</executable>
                     <layout>ZIP</layout>
 
                     <!-- 包含主类 -->
@@ -149,10 +148,10 @@
                     <!-- 不附加 assembly id 到文件名 -->
                     <appendAssemblyId>false</appendAssemblyId>
 
-                    <!-- 使用自定义描述符 -->
-                    <descriptors>
-                        <descriptor>src/assembly/package.xml</descriptor>
-                    </descriptors>
+<!--                    &lt;!&ndash; 使用自定义描述符 &ndash;&gt;-->
+<!--                    <descriptors>-->
+<!--                        <descriptor>src/assembly/package.xml</descriptor>-->
+<!--                    </descriptors>-->
 
                     <!-- 或使用内联配置 -->
                     <descriptorRefs>
@@ -201,8 +200,7 @@
 
                             <!-- 排除不需要的依赖 -->
                             <excludeArtifactIds>
-                                spring-boot-devtools,
-                                lombok
+                                spring-boot-devtools, lombok
                             </excludeArtifactIds>
                         </configuration>
                     </execution>
@@ -255,7 +253,7 @@
                     </excludes>
 
                     <!-- 输出的JAR文件名 -->
-                    <finalName>${project.artifactId}</finalName>
+                    <finalName>myApp</finalName>
                     <outputDirectory>${project.build.directory}</outputDirectory>
                 </configuration>
             </plugin>

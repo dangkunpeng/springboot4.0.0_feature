@@ -12,3 +12,17 @@ mvn clean package assembly:single -DskipTests
 
 # 5. 查看生成的目录结构
 tree target/your-app-package/
+
+# Linux/Mac
+```
+chmod +x bin/start.sh
+./bin/start.sh start
+./bin/start.sh stop
+./bin/start.sh status
+```
+# Windows
+```
+bin\start.bat start
+bin\start.bat stop
+bin\start.bat status
+```

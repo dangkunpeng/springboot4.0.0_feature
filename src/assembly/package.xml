@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0
+          https://maven.apache.org/xsd/assembly-2.2.0.xsd">
+
+    <id>package</id>
+
+    <!-- 打包格式 -->
+    <formats>
+        <format>dir</format>  <!-- 目录格式，便于查看 -->
+        <format>zip</format>  <!-- 压缩包格式 -->
+    </formats>
+
+    <!-- 包含/排除文件 -->
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <fileSets>
+        <!-- 1. 主JAR文件 -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>${project.artifactId}.jar</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+        <!-- 2. 依赖JAR文件 -->
+        <fileSet>
+            <directory>${project.build.directory}/lib</directory>
+            <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
+        <!-- 3. 配置文件 -->
+        <fileSet>
+            <directory>${project.build.directory}/config</directory>
+            <outputDirectory>/config</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
+        <!-- 4. 启动脚本 -->
+        <fileSet>
+            <directory>${project.build.directory}/bin</directory>
+            <outputDirectory>/bin</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+        <!-- 5. 日志目录 -->
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/logs</outputDirectory>
+            <excludes>
+                <exclude>**/*</exclude>
+            </excludes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+        <!-- 6. 文档文件 -->
+        <fileSet>
+            <directory>${project.basedir}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>README.md</include>
+                <include>LICENSE</include>
+                <include>CHANGELOG.md</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+    <!-- 依赖文件集 -->
+    <dependencySets>
+        <!-- 运行时依赖 -->
+        <dependencySet>
+            <outputDirectory>/lib</outputDirectory>
+            <scope>runtime</scope>
+            <useProjectArtifact>false</useProjectArtifact>
+            <unpack>false</unpack>
+            <fileMode>0644</fileMode>
+
+            <!-- 排除特定依赖 -->
+            <excludes>
+                <exclude>org.projectlombok:lombok</exclude>
+                <exclude>org.springframework.boot:spring-boot-devtools</exclude>
+            </excludes>
+
+            <!-- 包含系统作用域依赖 -->
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
+        </dependencySet>
+
+        <!-- 可选：分离不同类型的依赖 -->
+        <dependencySet>
+            <outputDirectory>/lib/spring</outputDirectory>
+            <includes>
+                <include>org.springframework*:*</include>
+            </includes>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+        </dependencySet>
+
+        <dependencySet>
+            <outputDirectory>/lib/database</outputDirectory>
+            <includes>
+                <include>com.mysql*:*</include>
+                <include>org.postgresql:*</include>
+                <include>com.h2database:*</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/lib/sb</outputDirectory>
+            <includes>
+                <include>spring-boot*</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+</assembly>
