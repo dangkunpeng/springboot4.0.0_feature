@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.sam</groupId>
-    <artifactId>v4</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>sbv4</artifactId>
+    <version>4</version>
     <name>Spring Boot V4</name>
     <description>V4 for Spring Boot</description>
     <url/>
