@@ -148,11 +148,6 @@
                     <!-- 不附加 assembly id 到文件名 -->
                     <appendAssemblyId>false</appendAssemblyId>
 
-                    <!--                    &lt;!&ndash; 使用自定义描述符 &ndash;&gt;-->
-                    <!--                    <descriptors>-->
-                    <!--                        <descriptor>src/assembly/package.xml</descriptor>-->
-                    <!--                    </descriptors>-->
-
                     <!-- 或使用内联配置 -->
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -295,7 +290,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/bin</outputDirectory>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/main/scripts</directory>
@@ -309,6 +304,45 @@
                             <delimiters>
                                 <delimiter>@</delimiter>
                             </delimiters>
+                        </configuration>
+                    </execution>
+                    <!-- 复制静态资源到target/static -->
+                    <execution>
+                        <id>copy-static-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/resources/static</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/static</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+
+                    <!-- 复制模板文件到target/templates -->
+                    <execution>
+                        <id>copy-template-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/resources/templates</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/templates</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
