@@ -1,4 +1,4 @@
-package com.sam.demo.hello;
+package com.sam.vt.hello;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

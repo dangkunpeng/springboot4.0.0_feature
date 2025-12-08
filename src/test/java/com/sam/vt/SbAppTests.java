@@ -1,4 +1,4 @@
-package com.sam.demo;
+package com.sam.vt;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

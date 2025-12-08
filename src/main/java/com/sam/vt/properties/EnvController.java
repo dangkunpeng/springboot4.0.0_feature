@@ -1,7 +1,7 @@
-package com.sam.demo.properties;
+package com.sam.vt.properties;
 
-import com.sam.demo.utils.FmtUtils;
-import com.sam.demo.utils.JsonUtil;
+import com.sam.vt.utils.FmtUtils;
+import com.sam.vt.utils.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

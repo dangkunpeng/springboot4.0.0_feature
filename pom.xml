@@ -135,7 +135,7 @@
                     <!-- 不包含依赖的瘦JAR -->
                     <archive>
                         <manifest>
-                            <mainClass>com.sam.demo.SbApp</mainClass>
+                            <mainClass>com.sam.vt.SbApp</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                             <useUniqueVersions>false</useUniqueVersions>
@@ -164,11 +164,12 @@
                 </configuration>
             </plugin>
 
-            <!-- 3. 复制资源文件 主要是依赖文件-->
+            <!-- 3. 复制资源文件 主要是启动脚本和配置文件-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
+                    <!--3.1拷贝配置文件-->
                     <execution>
                         <id>copy-config-files</id>
                         <phase>package</phase>
@@ -191,7 +192,7 @@
                             </resources>
                         </configuration>
                     </execution>
-
+                    <!--3.2拷贝启动脚本-->
                     <execution>
                         <id>copy-scripts</id>
                         <phase>package</phase>

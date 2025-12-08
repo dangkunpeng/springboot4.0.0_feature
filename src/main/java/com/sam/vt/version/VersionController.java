@@ -1,4 +1,4 @@
-package com.sam.demo.version;
+package com.sam.vt.version;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

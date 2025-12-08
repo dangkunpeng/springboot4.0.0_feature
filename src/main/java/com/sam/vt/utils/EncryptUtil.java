@@ -1,4 +1,4 @@
-package com.sam.demo.utils;
+package com.sam.vt.utils;
 
 import javax.crypto.Cipher;
 import java.math.BigInteger;

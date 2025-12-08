@@ -1,4 +1,4 @@
-package com.sam.demo.utils;
+package com.sam.vt.utils;
 
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.stereotype.Component;

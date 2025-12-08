@@ -1,4 +1,4 @@
-package com.sam.demo.utils;
+package com.sam.vt.utils;
 
 import tools.jackson.databind.JavaType;
 import tools.jackson.databind.ObjectMapper;
