@@ -28,7 +28,7 @@ public class VtJob {
         virtualThreds.hello();
     }
 
-    @Scheduled(fixedRate = 500L)
+//    @Scheduled(fixedRate = 500L)
     public void ByService() {
         virtualThreds.getDemoKey("helloWorld");
     }

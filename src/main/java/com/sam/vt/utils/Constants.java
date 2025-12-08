@@ -1,5 +1,6 @@
 package com.sam.vt.utils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -31,5 +32,11 @@ public class Constants {
     }
     public static String minusDays(long days, String datePattern) {
         return LocalDateTime.now().minusDays(days).format(DateTimeFormatter.ofPattern(datePattern));
+    }
+    public static String fmtLocalDate(LocalDate dateTime) {
+        return fmtLocalDate(dateTime, SYS_DEFAULT_DAY_PATTERN);
+    }
+    public static String fmtLocalDate(LocalDate dateTime, String pattern) {
+        return dateTime.format(DateTimeFormatter.ofPattern(pattern));
     }
 }
