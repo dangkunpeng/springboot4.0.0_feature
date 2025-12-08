@@ -2,29 +2,23 @@ package com.sam.vt.demo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class VtJob {
-
+public class VirtualInit implements ApplicationRunner {
     private final VirtualThreds virtualThreds;
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
 
-    @Scheduled(fixedRate = 300L)
-    public void scheduleTask() {
+//        virtualThreds.hello();
+//        virtualThreds.helloWorld();
+        log.info("VirtualInit run method executed.");
         Thread.startVirtualThread(() -> {
             log.info("Hello from virtual thread by startVirtualThread!");
         });
-    }
-
-    @Scheduled(fixedRate = 400L)
-    public void hello() {
-        virtualThreds.hello();
-    }
-    @Scheduled(fixedRate = 500L)
-    public void ByService() {
-        virtualThreds.helloWorld();
     }
 }
