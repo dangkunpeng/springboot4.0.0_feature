@@ -83,70 +83,8 @@
     </dependencies>
 
     <build>
-        <!--        <finalName>${project.artifactId}-${project.version}-original</finalName>-->
-
         <plugins>
-            <!-- 1. Spring Boot Maven Plugin -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!-- 打包为可执行JAR -->
-                    <layout>ZIP</layout>
-
-                    <!-- 包含主类 -->
-                    <mainClass>com.sam.demo.SbApp</mainClass>
-
-                    <!-- 排除内置的依赖 -->
-                    <includes>
-                        <include>
-                            <groupId>non-exists</groupId>
-                            <artifactId>non-exists</artifactId>
-                        </include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- 2. Maven Assembly Plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <!-- 不附加 assembly id 到文件名 -->
-                    <appendAssemblyId>false</appendAssemblyId>
-
-                    <!-- 或使用内联配置 -->
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-
-                    <archive>
-                        <manifest>
-                            <mainClass>com.sam.demo.DemoApplication</mainClass>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- 3. Maven Dependency Plugin -->
+            <!-- 1. Maven Dependency Plugin 处理依赖-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -189,7 +127,7 @@
                 </executions>
             </plugin>
 
-            <!-- 4. Maven JAR Plugin -->
+            <!-- 2. Maven JAR Plugin 打包-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -226,7 +164,7 @@
                 </configuration>
             </plugin>
 
-            <!-- 5. 复制资源文件 -->
+            <!-- 3. 复制资源文件 主要是依赖文件-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
