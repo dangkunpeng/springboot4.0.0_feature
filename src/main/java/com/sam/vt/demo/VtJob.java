@@ -8,13 +8,12 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @RequiredArgsConstructor
-//@Component
+@Component
 public class VtJob {
 
     private final VirtualThreds virtualThreds;
-    private final StringRedisTemplate stringRedisTemplate;
 
-    @Scheduled(fixedRate = 300L)
+//    @Scheduled(fixedRate = 300L)
     public void scheduleTask() {
         Thread.startVirtualThread(() -> {
             log.info("Hello from virtual thread by startVirtualThread!");
@@ -24,15 +23,15 @@ public class VtJob {
         });
     }
 
-    @Scheduled(fixedRate = 400L)
+//    @Scheduled(fixedRate = 400L)
     public void hello() {
         virtualThreds.hello();
     }
 
     @Scheduled(fixedRate = 500L)
     public void ByService() {
-        virtualThreds.helloWorld();
-        log.info("hello ++ = {}", stringRedisTemplate.opsForValue().increment("helloWorld"));
-        ;
+        virtualThreds.getDemoKey("helloWorld");
     }
+
+
 }
