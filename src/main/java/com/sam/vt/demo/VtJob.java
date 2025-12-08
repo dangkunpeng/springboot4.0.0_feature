@@ -2,20 +2,25 @@ package com.sam.vt.demo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
+//@Component
 public class VtJob {
 
     private final VirtualThreds virtualThreds;
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Scheduled(fixedRate = 300L)
     public void scheduleTask() {
         Thread.startVirtualThread(() -> {
             log.info("Hello from virtual thread by startVirtualThread!");
+        });
+        Thread.ofVirtual().name("hello-virtual-thread", 0).start(() -> {
+            log.info("Hello from virtual thread by Thread.ofVirtual()!");
         });
     }
 
@@ -23,8 +28,11 @@ public class VtJob {
     public void hello() {
         virtualThreds.hello();
     }
+
     @Scheduled(fixedRate = 500L)
     public void ByService() {
         virtualThreds.helloWorld();
+        log.info("hello ++ = {}", stringRedisTemplate.opsForValue().increment("helloWorld"));
+        ;
     }
 }
