@@ -2,6 +2,7 @@ package com.sam.vt.signin.service;
 
 import com.sam.vt.db.entity.SignInfo;
 import com.sam.vt.db.repository.SignInfoRepository;
+import com.sam.vt.dict.DictApi;
 import com.sam.vt.utils.JsonUtil;
 import com.sam.vt.utils.RedisHelper;
 import com.sam.vt.utils.SysDefaults;
@@ -22,6 +23,8 @@ import static com.sam.vt.utils.SysDefaults.fmtLocalDate;
 @Service
 @RequiredArgsConstructor
 public class SignInService {
+    private final DictApi dictApi;
+
     private final SignInfoRepository signInfoRepository;
 
     public ResponseEntity<SignInfo> sign(String userId, LocalDate signDate) {
@@ -69,10 +72,8 @@ public class SignInService {
         }
     }
 
-    public static Integer getRewardByRules(Integer continuousDays) {
-        Map<Integer, Integer> rewardMap = Map.of(1, 10, 2, 20, 3, 30,
-                4, 40, 5, 50, 6, 60, 7, 70
-        );
-        return rewardMap.getOrDefault(continuousDays, rewardMap.get(7));
+    public Integer getRewardByRules(Integer continuousDays) {
+        Map<String, String> rewardMap = this.dictApi.getDictMap("SIGN_REWARD");
+        return Integer.parseInt(rewardMap.getOrDefault(String.valueOf(continuousDays), rewardMap.get("7")));
     }
 }
