@@ -88,7 +88,7 @@ public class RedisHelper {
         result.append(id).append(Constants.nowDay());
         // 获取时间戳的使用次数
         Long counter = stringRedisTemplate.opsForValue().increment(result.toString());
-        expire(result.toString(), KEY_EXPIRE_MINUTES + KEY_EXPIRE_MINUTES);
+        expire(result.toString(), KEY_EXPIRE_MINUTES * 2);
         // 拼接上序号
         result.append(StringUtils.leftPad(String.valueOf(counter), COUNT_LENGTH, PAD_CHAR));
         return result.toString();
