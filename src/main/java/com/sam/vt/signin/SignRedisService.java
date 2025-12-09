@@ -18,37 +18,42 @@ public class SignRedisService {
     private StringRedisTemplate stringRedisTemplate;
 
     public Result<String> sign(String userId, LocalDate date) {
+
         String day = date.format(DateTimeFormatter.ofPattern(SYS_DEFAULT_DAY_PATTERN));
-        if (hasSigned(userId, date)) {
+        if (getSigned(userId, date)) {
             return Result.error("Already signed in " + day);
-        } else {
-            String year = String.valueOf(date.getYear());
-            String signKey = getSignKey(userId, year);
-            int offset = date.getDayOfYear() - 1;
-            stringRedisTemplate.opsForValue().setBit(signKey, offset, true);
         }
-        log.info("on {}, total sign-ins: {}", day, summary(userId, date));
+        Thread.ofVirtual().start(() -> {
+            setSigned(userId, date);
+//            log.info("on {}, total sign-ins: {}", day, summary(userId, date));
+        });
         return Result.success("Sign-in successful");
     }
 
-    private Boolean hasSigned(String userId, LocalDate date) {
-        String year = String.valueOf(date.getYear());
-        String signKey = getSignKey(userId, year);
-        int offset = date.getDayOfYear() - 1;
-        return stringRedisTemplate.opsForValue().getBit(signKey, offset);
+    private void setSigned(String userId, LocalDate date) {
+        stringRedisTemplate.opsForValue()
+                .setBit(getSignKey(userId, date), getOffset(date), true);
+    }
+
+    private Boolean getSigned(String userId, LocalDate date) {
+        return stringRedisTemplate.opsForValue()
+                .getBit(getSignKey(userId, date), getOffset(date));
+    }
+
+    private static int getOffset(LocalDate date) {
+        return date.getDayOfYear() - 1;
     }
 
     private Integer summary(String userId, LocalDate date) {
         Integer count = 0;
-        while (hasSigned(userId, date)) {
+        while (getSigned(userId, date)) {
             count++;
             date = date.minusDays(1);
         }
         return count;
-
     }
 
-    private static String getSignKey(String userId, String year) {
-        return "sign-" + userId + "-" + year;
+    private static String getSignKey(String userId, LocalDate date) {
+        return date.getYear() + ":sign:" + userId;
     }
 }
