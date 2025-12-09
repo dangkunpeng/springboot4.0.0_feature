@@ -1,4 +1,4 @@
-package com.sam.vt.signin.entity;
+package com.sam.vt.db.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

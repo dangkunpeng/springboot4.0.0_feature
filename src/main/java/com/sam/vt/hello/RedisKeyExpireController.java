@@ -16,14 +16,13 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/redis")
-public class RedisController {
+public class RedisKeyExpireController {
 
     private final StringRedisTemplate stringRedisTemplate;
 
     @RequestMapping("/expiring/{matcher}/{seconds}")
-    public ResponseEntity<String> monitorExpiringKeyInCache(@PathVariable String matcher, @PathVariable Long seconds) {
+    public ResponseEntity<String> expiringKey(@PathVariable String matcher, @PathVariable Long seconds) {
         log.info("Monitoring keys matching '*{}*' that are expiring within {} seconds", matcher, seconds);
-
         StringBuilder keys = new StringBuilder();
         // 使用SCAN命令查找不包含"*matcher*"的键
         ScanOptions scanOptions = ScanOptions.scanOptions().match("*" + matcher + "*").count(100).build();
@@ -33,8 +32,6 @@ public class RedisController {
                 String key = cursor.next();
                 keys.append(key).append(", ");
                 log.info("expiring for key: {}", key);
-//                String value = stringRedisTemplate.opsForValue().get(key);
-//                stringRedisTemplate.opsForValue().set(key, value, seconds, TimeUnit.SECONDS);
                 stringRedisTemplate.expire(key, seconds, TimeUnit.SECONDS);
             }
         }

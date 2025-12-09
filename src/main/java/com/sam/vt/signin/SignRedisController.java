@@ -1,5 +1,7 @@
 package com.sam.vt.signin;
 
+import com.sam.vt.signin.service.SignInService;
+import com.sam.vt.signin.service.SignRedisService;
 import com.sam.vt.utils.RedisHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

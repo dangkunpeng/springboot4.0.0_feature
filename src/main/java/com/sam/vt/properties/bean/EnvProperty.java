@@ -1,4 +1,4 @@
-package com.sam.vt.properties;
+package com.sam.vt.properties.bean;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

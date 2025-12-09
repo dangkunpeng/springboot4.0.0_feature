@@ -1,4 +1,4 @@
-package com.sam.vt.properties;
+package com.sam.vt.properties.bean;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Configuration("EnvDfm")
-@ConfigurationProperties(prefix = "app.info.dfm")
-public class EnvDfmProperty extends EnvInfo {
+@Configuration("EnvSnow")
+@ConfigurationProperties(prefix = "app.info.snow")
+public class EnvSnowProperty extends EnvInfo {
 }

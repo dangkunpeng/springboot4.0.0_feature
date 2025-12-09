@@ -1,4 +1,4 @@
-package com.sam.vt.signin;
+package com.sam.vt.utils;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;

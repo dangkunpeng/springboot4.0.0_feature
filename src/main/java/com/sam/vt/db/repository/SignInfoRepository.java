@@ -1,6 +1,6 @@
-package com.sam.vt.signin.reop;
+package com.sam.vt.db.repository;
 
-import com.sam.vt.signin.entity.SignInfo;
+import com.sam.vt.db.entity.SignInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

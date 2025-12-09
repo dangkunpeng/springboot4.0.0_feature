@@ -1,5 +1,7 @@
 package com.sam.vt.properties;
 
+import com.sam.vt.properties.bean.EnvInfo;
+import com.sam.vt.properties.bean.EnvProperty;
 import com.sam.vt.utils.FmtUtils;
 import com.sam.vt.utils.JsonUtil;
 import lombok.RequiredArgsConstructor;

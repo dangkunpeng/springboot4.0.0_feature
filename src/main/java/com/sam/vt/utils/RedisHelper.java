@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import static com.sam.vt.utils.Constants.COUNT_LENGTH;
-import static com.sam.vt.utils.Constants.PAD_CHAR;
+import static com.sam.vt.utils.SysDefaults.COUNT_LENGTH;
+import static com.sam.vt.utils.SysDefaults.PAD_CHAR;
 
 
 @Service
@@ -85,7 +85,7 @@ public class RedisHelper {
         // 这里可以调用 KeyTool 来生成主键
         StringBuilder result = new StringBuilder();
         // 时间戳
-        result.append(id).append(Constants.nowDay());
+        result.append(id).append(SysDefaults.nowDay());
         // 获取时间戳的使用次数
         Long counter = stringRedisTemplate.opsForValue().increment(result.toString());
         expire(result.toString(), KEY_EXPIRE_MINUTES * 2);
