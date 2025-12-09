@@ -11,7 +11,7 @@ public class VtJob {
 
     private final VirtualThreds virtualThreds;
 
-//    @Scheduled(fixedRate = 300L)
+    //    @Scheduled(fixedRate = 300L)
     public void scheduleTask() {
         Thread.startVirtualThread(() -> {
             log.info("Hello from virtual thread by startVirtualThread!");
@@ -21,12 +21,12 @@ public class VtJob {
         });
     }
 
-//    @Scheduled(fixedRate = 400L)
+    //    @Scheduled(fixedRate = 400L)
     public void hello() {
         virtualThreds.hello();
     }
 
-//    @Scheduled(fixedRate = 500L)
+    //    @Scheduled(fixedRate = 500L)
     public void ByService() {
         virtualThreds.getDemoKey("helloWorld");
     }

@@ -23,6 +23,7 @@ public class SysDefaults {
     public static String now() {
         return minusDays(0, SYS_DEFAULT_DATETIME_PATTERN);
     }
+
     public static String nowDay() {
         return minusDays(0);
     }
@@ -30,12 +31,15 @@ public class SysDefaults {
     public static String minusDays(long days) {
         return minusDays(days, SYS_DEFAULT_DAY_PATTERN);
     }
+
     public static String minusDays(long days, String datePattern) {
         return LocalDateTime.now().minusDays(days).format(DateTimeFormatter.ofPattern(datePattern));
     }
+
     public static String fmtLocalDate(LocalDate dateTime) {
         return fmtLocalDate(dateTime, SYS_DEFAULT_DAY_PATTERN);
     }
+
     public static String fmtLocalDate(LocalDate dateTime, String pattern) {
         return dateTime.format(DateTimeFormatter.ofPattern(pattern));
     }
