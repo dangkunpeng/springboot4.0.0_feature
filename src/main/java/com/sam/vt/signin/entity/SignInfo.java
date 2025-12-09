@@ -26,4 +26,8 @@ public class SignInfo {
     private Long totalSignDays;    // 总签到天数
     @Column
     private Integer continuousDays; // 连续签到天数
+    @Column
+    private Integer rewardPoints;     // 奖励积分
+    @Column
+    private Integer totalPoints;     // 奖励积分
 }

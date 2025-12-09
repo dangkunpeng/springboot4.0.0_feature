@@ -1,23 +1,20 @@
 package com.sam.vt.signin;
 
-import com.sam.vt.signin.beans.SignResult;
 import com.sam.vt.signin.entity.SignInfo;
 import com.sam.vt.signin.reop.SignInfoRepository;
 import com.sam.vt.utils.Constants;
-import com.sam.vt.utils.FmtUtils;
 import com.sam.vt.utils.JsonUtil;
 import com.sam.vt.utils.RedisHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 import static com.sam.vt.utils.Constants.fmtLocalDate;
 
@@ -36,6 +33,8 @@ public class SignInService {
             signInfo.setLastSignDate(fmtLocalDate(signDate));
             signInfo.setTotalSignDays(1L);
             signInfo.setContinuousDays(1);
+            signInfo.setRewardPoints(getRewardByRules(1));
+            signInfo.setTotalPoints(signInfo.getRewardPoints());
             this.signInfoRepository.save(signInfo);
             log.info("首次签到={}", JsonUtil.toJsonString(signInfo));
             return ResponseEntity.ok("success");
@@ -61,11 +60,19 @@ public class SignInService {
             } else {
                 // 非连续签到
                 signInfo.setContinuousDays(1);
-
             }
+            signInfo.setRewardPoints(getRewardByRules(signInfo.getContinuousDays()));
+            signInfo.setTotalPoints(signInfo.getRewardPoints() + signInfo.getTotalPoints());
             this.signInfoRepository.save(signInfo);
             log.info("正常签到={}", JsonUtil.toJsonString(signInfo));
             return ResponseEntity.ok("重复签到");
         }
+    }
+
+    public static Integer getRewardByRules(Integer continuousDays) {
+        Map<Integer, Integer> rewardMap = Map.of(1, 10, 2, 20, 3, 30,
+                4, 40, 5, 50, 6, 60, 7, 70
+        );
+        return rewardMap.getOrDefault(continuousDays, rewardMap.get(7));
     }
 }
