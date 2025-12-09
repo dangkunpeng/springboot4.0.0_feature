@@ -25,7 +25,7 @@ public class SignRedisService {
         }
         Thread.ofVirtual().start(() -> {
             setSigned(userId, date);
-//            log.info("on {}, total sign-ins: {}", day, summary(userId, date));
+            log.info("on {}, total sign-ins: {}", day, summary(userId, date));
         });
         return Result.success("Sign-in successful");
     }

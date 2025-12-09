@@ -33,6 +33,6 @@ public class SignRedisController {
         }
         stopWatch.stop();
         log.info("Sign-in test completed. Total time: {} ms", stopWatch.getTotalTimeMillis());
-        return ResponseEntity.ok("sign  in" + stopWatch.getTotalTimeMillis() + "  ms");
+        return ResponseEntity.ok("sign  in " + stopWatch.getTotalTimeMillis() + "  ms");
     }
 }
