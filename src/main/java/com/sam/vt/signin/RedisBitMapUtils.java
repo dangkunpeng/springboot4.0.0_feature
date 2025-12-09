@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class RedisBitMapUtils {
 
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
     public Boolean setSigned(String userId, LocalDate date) {
         if (getSigned(userId, date)) {

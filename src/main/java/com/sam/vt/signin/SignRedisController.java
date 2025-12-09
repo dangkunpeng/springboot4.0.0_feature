@@ -17,6 +17,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @RequiredArgsConstructor
 @RequestMapping("/api/sign")
 public class SignRedisController {
+
+    private final SignInService signInService;
     private final SignRedisService signRedisService;
 
     @RequestMapping("/test/{times}")
@@ -27,12 +29,14 @@ public class SignRedisController {
         StopWatch stopWatch = new StopWatch("sign");
         stopWatch.start("vt sign");
         for (int i = 0; i < times; i++) {
-//            int days = ThreadLocalRandom.current().nextInt(1, 3);
-            today = today.plusDays(1);
+            int days = ThreadLocalRandom.current().nextInt(1, 3);
+            today = today.plusDays(days);
             signRedisService.sign(userId, today);
+            signInService.sign(userId, today);
         }
         stopWatch.stop();
         log.info("Sign-in test completed. Total time: {} ms", stopWatch.getTotalTimeMillis());
+
         return ResponseEntity.ok("sign  in " + stopWatch.getTotalTimeMillis() + "  ms");
     }
 }
