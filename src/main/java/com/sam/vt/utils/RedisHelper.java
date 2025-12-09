@@ -85,8 +85,7 @@ public class RedisHelper {
         // 这里可以调用 KeyTool 来生成主键
         StringBuilder result = new StringBuilder();
         // 时间戳
-        result.append(id);
-        result.append(Constants.nowDay());
+        result.append(id).append(Constants.nowDay());
         // 获取时间戳的使用次数
         Long counter = stringRedisTemplate.opsForValue().increment(result.toString());
         expire(result.toString(), KEY_EXPIRE_MINUTES + KEY_EXPIRE_MINUTES);
