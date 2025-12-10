@@ -23,7 +23,7 @@ public class SignRedisService {
         Thread.ofVirtual().start(() -> {
             redisBitMapUtils.setSigned(userId, date);
             String day = date.format(DateTimeFormatter.ofPattern(SYS_DEFAULT_DAY_PATTERN));
-            log.info(SUMMARY_INFO, day, redisBitMapUtils.continusSignInfo(userId, date));
+            log.info(SUMMARY_INFO, day, redisBitMapUtils.continuousSignInfo(userId, date));
         });
         return ResponseEntity.ok("Sign-in successful");
     }
