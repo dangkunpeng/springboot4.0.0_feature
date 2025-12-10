@@ -3,6 +3,7 @@ package com.sam.vt.signin.service;
 import com.sam.vt.db.entity.SignInfo;
 import com.sam.vt.db.repository.SignInfoRepository;
 import com.sam.vt.dict.DictApi;
+import com.sam.vt.enums.EnumDict;
 import com.sam.vt.utils.JsonUtil;
 import com.sam.vt.utils.RedisHelper;
 import com.sam.vt.utils.SysDefaults;
@@ -73,7 +74,7 @@ public class SignInService {
     }
 
     public Integer getRewardByRules(Integer continuousDays) {
-        Map<String, String> rewardMap = this.dictApi.getDictMap("SIGN_REWARD");
+        Map<String, String> rewardMap = this.dictApi.getDictMap(EnumDict.SIGN_REWARD.name());
         return Integer.parseInt(rewardMap.getOrDefault(String.valueOf(continuousDays), rewardMap.get("7")));
     }
 }

@@ -5,11 +5,13 @@ import com.sam.vt.db.entity.Dict;
 import com.sam.vt.db.entity.DictItem;
 import com.sam.vt.db.repository.DictItemRepository;
 import com.sam.vt.db.repository.DictRepository;
+import com.sam.vt.enums.EnumDict;
 import com.sam.vt.enums.EnumValid;
 import com.sam.vt.utils.FmtUtils;
 import com.sam.vt.utils.RedisHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -26,9 +28,15 @@ public class DictInit implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        List<Dict> dictList = dictRepository.getAllByDictCodeAndValid(EnumDict.SIGN_REWARD.name(), EnumValid.YES.getCode());
+        // 如果已经初始化过，就不再初始化
+        if (!CollectionUtils.isEmpty(dictList)) {
+            log.info("字典数据已初始化，无需重复初始化");
+            return;
+        }
         Dict dict = Dict.builder()
                 .dictId(RedisHelper.newKey("dict"))
-                .dictCode("SIGN_REWARD")
+                .dictCode(EnumDict.SIGN_REWARD.name())
                 .dictName("签到奖励")
                 .dictDesc("签到奖励配置")
                 .valid(EnumValid.YES.getCode())
