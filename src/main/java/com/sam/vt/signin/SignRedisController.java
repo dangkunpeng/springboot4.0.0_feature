@@ -36,7 +36,9 @@ public class SignRedisController {
         stopWatch.start("vt sign");
         List<String> list = Lists.newArrayList();
         for (int i = 0; i < times; i++) {
+            // 随机数据1或2
             int days = ThreadLocalRandom.current().nextInt(1, 3);
+            // 随机签到天数
             today = today.plusDays(days);
             signRedisService.sign(userId, today);
             ResponseEntity<SignInfo> resp = signInService.sign(userId, today);
