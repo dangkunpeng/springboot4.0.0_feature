@@ -44,6 +44,7 @@ public class DictInit implements ApplicationRunner {
                     .valid(EnumValid.YES.getCode())
                     .build());
         }
+        log.info("初始化字典数据: {}, {}", dict, dictItemList);
         this.dictRepository.save(dict);
         this.dictItemRepository.saveAll(dictItemList);
     }
