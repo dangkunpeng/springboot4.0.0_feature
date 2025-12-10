@@ -16,14 +16,14 @@ import static com.sam.vt.utils.SysDefaults.SYS_DEFAULT_DAY_PATTERN;
 @RequiredArgsConstructor
 public class SignRedisService {
 
+    private static final String SUMMARY_INFO = "on {}, continuous sign-ins: {}";
     private final RedisBitMapUtils redisBitMapUtils;
 
     public ResponseEntity<String> sign(String userId, LocalDate date) {
         Thread.ofVirtual().start(() -> {
             redisBitMapUtils.setSigned(userId, date);
-            log.info("on {}, total sign-ins: {}",
-                    date.format(DateTimeFormatter.ofPattern(SYS_DEFAULT_DAY_PATTERN)),
-                    redisBitMapUtils.summary(userId, date));
+            String day = date.format(DateTimeFormatter.ofPattern(SYS_DEFAULT_DAY_PATTERN));
+            log.info(SUMMARY_INFO, day, redisBitMapUtils.continusSignInfo(userId, date));
         });
         return ResponseEntity.ok("Sign-in successful");
     }
