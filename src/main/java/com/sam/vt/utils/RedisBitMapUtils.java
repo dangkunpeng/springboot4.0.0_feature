@@ -29,7 +29,7 @@ public class RedisBitMapUtils {
         return date.getDayOfYear() - 1;
     }
 
-    public Integer continusSignInfo(String userId, LocalDate date) {
+    public Integer continuousSignInfo(String userId, LocalDate date) {
         Integer count = 0;
         while (getSigned(userId, date)) {
             count++;
