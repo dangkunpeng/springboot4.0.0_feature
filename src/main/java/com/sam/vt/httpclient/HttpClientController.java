@@ -5,13 +5,11 @@ import com.sam.vt.dict.bean.DictBean;
 import com.sam.vt.httpclient.service.HttpClientService;
 import com.sam.vt.utils.JsonUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/httpClient")
@@ -33,14 +31,17 @@ public class HttpClientController {
     }
 
     @PostMapping("/dict")
-    public String dict(DictBean dictBean) {
+    public String dict(@RequestBody DictBean dictBean) {
+        log.info("outer dictBean={}", dictBean);
         String url = "http://localhost:8080/api/httpClient/dictApi";
-        return httpClientService.postJson(url, dictBean, String.class);
+        Map dictMap =  httpClientService.postJson(url, dictBean, Map.class);
+        return JsonUtil.toJsonString(dictMap);
     }
 
     @PostMapping("/dictApi")
-    public String getDict(DictBean dictBean) {
-        Map<String,String> dictMap = dictApi.getDictMap(dictBean.getDictCode());
+    public String getDict(@RequestBody DictBean dictBean) {
+        log.info("inner dictBean={}", dictBean);
+        Map<String, String> dictMap = dictApi.getDictMap(dictBean.getDictCode());
         return JsonUtil.toJsonString(dictMap);
     }
 }
