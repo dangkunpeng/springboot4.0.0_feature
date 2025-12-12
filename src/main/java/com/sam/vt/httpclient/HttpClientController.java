@@ -33,6 +33,7 @@ public class HttpClientController {
     @PostMapping("/dict")
     public String dict(@RequestBody DictBean dictBean) {
         log.info("outer dictBean={}", dictBean);
+        // 调用本地接口
         String url = "http://localhost:8080/api/httpClient/dictApi";
         return httpClientService.postJson(url, dictBean);
     }
