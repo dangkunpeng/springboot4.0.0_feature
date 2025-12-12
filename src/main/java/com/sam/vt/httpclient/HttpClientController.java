@@ -34,8 +34,7 @@ public class HttpClientController {
     public String dict(@RequestBody DictBean dictBean) {
         log.info("outer dictBean={}", dictBean);
         String url = "http://localhost:8080/api/httpClient/dictApi";
-        Map dictMap =  httpClientService.postJson(url, dictBean, Map.class);
-        return JsonUtil.toJsonString(dictMap);
+        return httpClientService.postJson(url, dictBean);
     }
 
     @PostMapping("/dictApi")

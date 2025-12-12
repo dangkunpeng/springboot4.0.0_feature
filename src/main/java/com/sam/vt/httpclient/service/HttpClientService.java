@@ -52,7 +52,38 @@ public class HttpClientService {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * POST request with JSON body
+     *
+     * @param url
+     * @param requestBody
+     * @return
+     */
+    public String postJson(String url, Object requestBody) {
+        HttpPost httpPost = new HttpPost(url);
 
+        // Convert request body to JSON
+        String json = objectMapper.writeValueAsString(requestBody);
+        StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
+        httpPost.setEntity(entity);
+
+        // Add headers
+        httpPost.setHeader("Accept", CONTENT_TYPE);
+        httpPost.setHeader("Content-Type", CONTENT_TYPE);
+
+        try (ClassicHttpResponse response = httpClient.execute(httpPost)) {
+            HttpEntity responseEntity = response.getEntity();
+            String responseBody = EntityUtils.toString(responseEntity);
+            EntityUtils.consume(responseEntity);
+
+            if (response.getCode() >= 200 && response.getCode() < 300) {
+                return responseBody;
+            }
+            throw new RuntimeException("POST request failed: " + response.getCode());
+        } catch (ParseException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * POST request with JSON body
