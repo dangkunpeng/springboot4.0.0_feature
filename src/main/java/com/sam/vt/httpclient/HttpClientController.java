@@ -1,16 +1,23 @@
 package com.sam.vt.httpclient;
 
+import com.sam.vt.dict.DictApi;
+import com.sam.vt.dict.bean.DictBean;
 import com.sam.vt.httpclient.service.HttpClientService;
+import com.sam.vt.utils.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/httpClient")
 public class HttpClientController {
 
+    private final DictApi dictApi;
     private final HttpClientService httpClientService;
 
     @RequestMapping("/getData")
@@ -23,5 +30,17 @@ public class HttpClientController {
     public String getDataVersion(@PathVariable String version) {
         String url = "http://localhost:8080/api/user?version=" + version;
         return httpClientService.getData(url);
+    }
+
+    @PostMapping("/dict")
+    public String dict(DictBean dictBean) {
+        String url = "http://localhost:8080/api/httpClient/dictApi";
+        return httpClientService.postJson(url, dictBean, String.class);
+    }
+
+    @PostMapping("/dictApi")
+    public String getDict(DictBean dictBean) {
+        Map<String,String> dictMap = dictApi.getDictMap(dictBean.getDictCode());
+        return JsonUtil.toJsonString(dictMap);
     }
 }
