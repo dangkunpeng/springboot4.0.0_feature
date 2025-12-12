@@ -16,9 +16,10 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 public class RestClientService {
-    public static final String CONTENT_TYPE = "application/json";
+    private static String BASE_URL = "http://localhost:8080";
     // 1. 创建 RestClient
-    private final RestClient restClient = RestClientUtils.getRestClient("http://localhost:8080");
+    private final RestClient restClient = RestClientUtils.getRestClient(BASE_URL);
+
     // 2. GET 请求 (阻塞式)
     public DictBean getUserById(Long id) {
         return restClient.get()
@@ -101,8 +102,8 @@ public class RestClientService {
     public Map getDictMap(DictBean dictBean) {
         return restClient.post()
                 .uri("/api/httpClient/dictApi")
-                .header("Accept", CONTENT_TYPE)
-                .header("Content-Type", CONTENT_TYPE)
+                .header("Accept", MediaType.APPLICATION_JSON_VALUE)
+                .header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .body(dictBean)  // 设置请求体
                 .retrieve()
                 .body(Map.class);
