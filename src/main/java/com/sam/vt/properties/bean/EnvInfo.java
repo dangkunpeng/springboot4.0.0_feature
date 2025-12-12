@@ -13,7 +13,7 @@ public class EnvInfo {
     private String name;
     private String server;
     private String url;
-    private String userNm;
-    private String passWd;
+    private String usrNm;
+    private String pssWd;
 
 }
