@@ -1,7 +1,7 @@
 package com.sam.vt.restclient.service;
 
 import com.sam.vt.dict.bean.DictBean;
-import org.springframework.http.HttpHeaders;
+import com.sam.vt.restclient.config.RestClientUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
@@ -18,12 +18,7 @@ import java.util.concurrent.CompletableFuture;
 public class RestClientService {
     public static final String CONTENT_TYPE = "application/json";
     // 1. 创建 RestClient
-    private final RestClient restClient = RestClient.builder()
-            .baseUrl("http://localhost:8080")
-            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .defaultHeader(HttpHeaders.USER_AGENT, "Spring-RestClient")
-            .build();
-
+    private final RestClient restClient = RestClientUtils.getRestClient("http://localhost:8080");
     // 2. GET 请求 (阻塞式)
     public DictBean getUserById(Long id) {
         return restClient.get()
@@ -101,6 +96,7 @@ public class RestClientService {
                 .retrieve()  // 发送请求
                 .body(String.class);
     }
+
     // 4. POST 请求
     public Map getDictMap(DictBean dictBean) {
         return restClient.post()
