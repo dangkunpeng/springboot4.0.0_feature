@@ -37,7 +37,7 @@ public class DictService {
      * @param dictCode
      * @return
      */
-    @Cacheable(value = {CACHE_NAME, "Dict"}, key = "'mstDict-dictCode' + #dictCode", unless = "#result==null")
+    @Cacheable(value = "mstDict", key = "'dictCode='+ #dictCode + ':valid=' + #valid", unless = "#result==null")
     public List<DictBean> getMstDict(String dictCode, Integer valid) {
         List<DictBean> result = Lists.newArrayList();
         try {
