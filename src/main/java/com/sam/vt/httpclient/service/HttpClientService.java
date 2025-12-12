@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Service
-public class httpClientService {
+public class HttpClientService {
 
     @Autowired
     private CloseableHttpClient closeableHttpClient;
