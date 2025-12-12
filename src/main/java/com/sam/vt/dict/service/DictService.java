@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.sam.vt.utils.SysDefaults.CACHE_NAME;
-
 /**
  * 描述： 字典表管理service
  * 本服务主要是为了提供缓存功能，不建议直接使用，建议使用DictApi
