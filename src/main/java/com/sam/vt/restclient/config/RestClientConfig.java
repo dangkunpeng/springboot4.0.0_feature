@@ -26,8 +26,7 @@ public class RestClientConfig {
                     long start = System.currentTimeMillis();
                     ClientHttpResponse response = execution.execute(request, body);
                     long duration = System.currentTimeMillis() - start;
-                    log.info("请求耗时: {}ms, URI: {}", duration,
-                            request.getURI().getPath());
+                    log.info("请求耗时: {}ms, URI: {}", duration, request.getURI().getPath());
                     return response;
                 })
                 .build();
