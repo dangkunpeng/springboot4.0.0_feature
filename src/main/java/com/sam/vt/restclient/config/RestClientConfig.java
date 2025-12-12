@@ -13,7 +13,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 
 @Slf4j
-@Configuration
+//@Configuration
 public class RestClientConfig {
 
     @Bean
