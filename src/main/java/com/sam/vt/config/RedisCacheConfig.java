@@ -30,7 +30,8 @@ public class RedisCacheConfig {
                         .SerializationPair
                         .fromSerializer(RedisSerializer.json()));
 
-        return RedisCacheManager.builder(factory)
+        return RedisCacheManager
+                .builder(factory)
                 .cacheDefaults(config)
                 .build();
     }
