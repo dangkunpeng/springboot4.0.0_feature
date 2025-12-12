@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +41,8 @@ public class HttpClientController {
     @PostMapping("/dictApi")
     public String getDict(@RequestBody DictBean dictBean) {
         log.info("inner dictBean={}", dictBean);
-        Map<String, String> dictMap = dictApi.getDictMap(dictBean.getDictCode());
-        return JsonUtil.toJsonString(dictMap);
+//        Map<String, String> dictMap = dictApi.getDictMap(dictBean.getDictCode());
+        List<DictBean> list = dictApi.getMstDict(dictBean.getDictCode());
+        return JsonUtil.toJsonString(list);
     }
 }
