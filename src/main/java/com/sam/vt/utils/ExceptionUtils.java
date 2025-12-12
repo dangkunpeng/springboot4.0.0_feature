@@ -1,7 +1,11 @@
 package com.sam.vt.utils;
 
+import com.google.common.collect.Lists;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 
@@ -13,21 +17,30 @@ public class ExceptionUtils {
         return mailPattern.matcher(txt).matches();
     }
 
+    private static final List<String> headers = Lists.newArrayList(
+            "x-forwarded-for"
+            , "Proxy-Client-IP"
+            , "WL-Proxy-Client-IP"
+            , "HTTP_CLIENT_IP"
+            , "HTTP_X_FORWARDED_FOR"
+    );
+
+    /**
+     * 获取客户端IP地址
+     *
+     * @param request HttpServletRequest
+     * @return IP地址
+     */
     public static String getIpAddress(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
+        String ip = "";
+        for (String header : headers) {
+            // 从header
+            ip = request.getHeader(header);
+            if (StringUtils.isNotBlank(ip) && !Objects.equals(ip, "unknown")) {
+                break;
+            }
         }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_CLIENT_IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (StringUtils.isNotBlank(ip) && !Objects.equals(ip, "unknown")) {
             ip = request.getRemoteAddr();
         }
         return ip;
