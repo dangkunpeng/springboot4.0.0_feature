@@ -1,5 +1,8 @@
 package com.sam.vt.httpclient.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sam.vt.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -13,7 +16,6 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.message.StatusLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -59,11 +61,11 @@ public class HttpClientService {
      * @param requestBody
      * @return
      */
-    public String postJson(String url, Object requestBody) {
+    public String postJson(String url, Object requestBody)  {
         HttpPost httpPost = new HttpPost(url);
 
         // Convert request body to JSON
-        String json = objectMapper.writeValueAsString(requestBody);
+        String json = JsonUtil.toJsonString(requestBody);
         StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
         httpPost.setEntity(entity);
 
@@ -98,7 +100,7 @@ public class HttpClientService {
         HttpPost httpPost = new HttpPost(url);
 
         // Convert request body to JSON
-        String json = objectMapper.writeValueAsString(requestBody);
+        String json = JsonUtil.toJsonString(requestBody);
         StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
         httpPost.setEntity(entity);
 

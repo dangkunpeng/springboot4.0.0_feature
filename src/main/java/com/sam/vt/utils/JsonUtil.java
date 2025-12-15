@@ -1,7 +1,9 @@
 package com.sam.vt.utils;
 
-import tools.jackson.databind.JavaType;
-import tools.jackson.databind.ObjectMapper;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -13,8 +15,12 @@ public class JsonUtil {
     /**
      * 对象转 JSON 字符串
      */
-    public static String toJsonString(Object obj) {
-        return objectMapper.writeValueAsString(obj);
+    public static String toJsonString(Object obj){
+        try {
+            return objectMapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
