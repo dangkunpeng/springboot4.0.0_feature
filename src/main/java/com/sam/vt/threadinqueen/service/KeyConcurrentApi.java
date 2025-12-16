@@ -14,22 +14,23 @@ import java.util.concurrent.TimeUnit;
 public class KeyConcurrentApi {
     public static final int THREAD_COUNT = 100;
 
+
     public void test(int requestsPerThread) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT,
+        ExecutorService phyThread = Executors.newFixedThreadPool(THREAD_COUNT,
                 new ThreadFactoryBuilder().setNameFormat("phyThread-%d").build());
-        runThread(requestsPerThread, executor);
+        runThread(requestsPerThread, phyThread);
     }
 
 
     public void testVirtual(int requestsPerThread) throws InterruptedException {
         // 测试参数配置
-        ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
+        ExecutorService virThread = Executors.newVirtualThreadPerTaskExecutor();
         // 准备线程任务
-        runThread(requestsPerThread, executor);
+        runThread(requestsPerThread, virThread);
     }
 
     private static void runThread(int requestsPerThread, ExecutorService executor) {
-        long startTime = System.nanoTime(); // 开始时间
+        long startTime = System.currentTimeMillis(); // 开始时间
         // 准备线程任务
         for (int i = 0; i < THREAD_COUNT; i++) {
             executor.submit(() -> gen(requestsPerThread));
@@ -42,9 +43,9 @@ public class KeyConcurrentApi {
             executor.shutdownNow(); // (new behavior)
             Thread.currentThread().interrupt();
         }
-        long endTime = System.nanoTime(); // 结束时间
+        long endTime = System.currentTimeMillis(); // 结束时间
         long duration = (endTime - startTime); // 计算耗时
-        log.info("总花费时间：{}", duration);
+        log.info("总花费时间：{} ms", duration);
     }
 
     private static void gen(int requestsPerThread) {
