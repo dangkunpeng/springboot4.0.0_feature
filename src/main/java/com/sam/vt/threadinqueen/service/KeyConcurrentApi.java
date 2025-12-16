@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -14,22 +15,25 @@ import java.util.concurrent.TimeUnit;
 public class KeyConcurrentApi {
     public static final int THREAD_COUNT = 100;
 
-
     public void test(int requestsPerThread) throws InterruptedException {
-        ExecutorService phyThread = Executors.newFixedThreadPool(THREAD_COUNT,
-                new ThreadFactoryBuilder().setNameFormat("phyThread-%d").build());
-        runThread(requestsPerThread, phyThread);
+        runThread(requestsPerThread, Executors.newFixedThreadPool(THREAD_COUNT,
+                new ThreadFactoryBuilder().setNameFormat("phyThread-%d").build()));
     }
 
 
     public void testVirtual(int requestsPerThread) throws InterruptedException {
-        // 测试参数配置
-        ExecutorService virThread = Executors.newVirtualThreadPerTaskExecutor();
+        ThreadFactory threadFactory = Thread.ofVirtual()
+                .name("virThread-", 0)
+                .uncaughtExceptionHandler((t, e) -> {
+                    // 异常时记录线程名称
+                    log.error("Virtual Thread Exception [name: {}]", t.getName(), e);
+                }).factory();
         // 准备线程任务
-        runThread(requestsPerThread, virThread);
+        runThread(requestsPerThread, Executors.newThreadPerTaskExecutor(threadFactory));
     }
 
     private static void runThread(int requestsPerThread, ExecutorService executor) {
+
         long startTime = System.currentTimeMillis(); // 开始时间
         // 准备线程任务
         for (int i = 0; i < THREAD_COUNT; i++) {
@@ -49,6 +53,7 @@ public class KeyConcurrentApi {
     }
 
     private static void gen(int requestsPerThread) {
+        log.info("gen运行{}", Thread.currentThread().getName());
         try {
             String key = RedisHelper.newKey("key");
 //            log.info("{}加入{},等待计算", key, Thread.currentThread().getName());
