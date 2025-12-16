@@ -4,88 +4,57 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sam.vt.utils.RedisHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StopWatch;
 
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
 public class KeyConcurrentApi {
+    public static final int THREAD_COUNT = 100;
 
     public void test(int requestsPerThread) throws InterruptedException {
-
-        // 测试参数配置
-        int threadCount = 100;           // 并发线程数
-        // 结果收集
-        ConcurrentHashMap<String, AtomicInteger> idCounter = new ConcurrentHashMap<>();
-
-        // 准备线程任务
-        AtomicLong successCount = new AtomicLong(0);
-        AtomicInteger duplicateCount = new AtomicInteger(0);
-
-        ExecutorService executor = Executors.newFixedThreadPool(threadCount,
+        ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT,
                 new ThreadFactoryBuilder().setNameFormat("phyThread-%d").build());
-        StopWatch stopwatch = new StopWatch("thread");
-        stopwatch.start("executor");
-        // 准备线程任务
-        for (int i = 0; i < threadCount; i++) {
-            final int finalcount = i;
-            executor.submit(() -> {
-                gen(requestsPerThread, idCounter, duplicateCount, successCount);
-            });
-        }
-        stopwatch.stop();
-        log.info("执行{}次，重复{}次", successCount, duplicateCount);
-        log.info(stopwatch.prettyPrint());
-        // 开始测试
-        executor.shutdown();
+        runThread(requestsPerThread, executor);
     }
+
 
     public void testVirtual(int requestsPerThread) throws InterruptedException {
-
         // 测试参数配置
-        int threadCount = 100;           // 并发线程数
-        // 结果收集
-        ConcurrentHashMap<String, AtomicInteger> idCounter = new ConcurrentHashMap<>();
-
+        ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
         // 准备线程任务
-        AtomicLong successCount = new AtomicLong(0);
-        AtomicInteger duplicateCount = new AtomicInteger(0);
-        StopWatch stopwatch = new StopWatch("thread");
-        stopwatch.start("executor");
-        // 准备线程任务
-        for (int i = 0; i < threadCount; i++) {
-            final int finalcount = i;
-            Thread.ofVirtual().name("virThread-" + i).start(() -> {
-                gen(requestsPerThread, idCounter, duplicateCount, successCount);
-            });
-        }
-
-        stopwatch.stop();
-        log.info("执行{}次，重复{}次", successCount, duplicateCount);
-        log.info(stopwatch.prettyPrint());
+        runThread(requestsPerThread, executor);
     }
 
-    private static void gen(int requestsPerThread, ConcurrentHashMap<String, AtomicInteger> idCounter, AtomicInteger duplicateCount, AtomicLong successCount) {
+    private static void runThread(int requestsPerThread, ExecutorService executor) {
+        long startTime = System.nanoTime(); // 开始时间
+        // 准备线程任务
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            executor.submit(() -> gen(requestsPerThread));
+        }
+        // 关闭线程池，不再接受新的任务
+        executor.shutdown();
+        try {
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS); // 等待直到所有任务完成
+        } catch (InterruptedException e) {
+            executor.shutdownNow(); // (new behavior)
+            Thread.currentThread().interrupt();
+        }
+        long endTime = System.nanoTime(); // 结束时间
+        long duration = (endTime - startTime); // 计算耗时
+        log.info("总花费时间：{}", duration);
+    }
+
+    private static void gen(int requestsPerThread) {
         try {
             String key = RedisHelper.newKey("key");
-            log.info("{}加入,等待计算", key);
+//            log.info("{}加入{},等待计算", key, Thread.currentThread().getName());
             for (int j = 0; j < requestsPerThread; j++) {
                 try {
                     // 生成主键
                     String id = RedisHelper.newKey(key + ":");
-                    // 统计唯一性
-                    AtomicInteger count = idCounter.computeIfAbsent(id, k -> new AtomicInteger(0));
-                    if (count.incrementAndGet() > 1) {
-                        duplicateCount.incrementAndGet();
-                        log.error("重复ID:{}, 出现次数: {}", id, count.get());
-                    }
-                    idCounter.put(id, count);
-                    successCount.incrementAndGet();
                 } catch (Exception e) {
                     log.error("生成失败: " + e.getMessage());
                 }
@@ -93,7 +62,7 @@ public class KeyConcurrentApi {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            log.info("有{}线程已完成", Thread.currentThread().getName());
+//            log.info("有{}线程已完成", Thread.currentThread().getName());
         }
     }
 }
