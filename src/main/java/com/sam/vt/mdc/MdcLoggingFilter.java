@@ -14,7 +14,7 @@ public class MdcLoggingFilter implements Filter {
         try {
             chain.doFilter(request, response);
         } catch (Exception e) {
-            log.error("apiId set error {}", ExceptionUtils.getExceptionStackTrace(e));
+            log.error("MDC set error {}", ExceptionUtils.getExceptionStackTrace(e));
         } finally {
             // 清理MDC信息以避免内存泄漏或错误传递
             MdcUtils.removeTraceId();
