@@ -29,7 +29,7 @@ public class DictInit implements ApplicationRunner {
     private final DictItemRepository dictItemRepository;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         List<Dict> dictList = dictRepository.getAllByDictCodeAndValid(EnumDict.SIGN_REWARD.name(), EnumValid.YES.getCode());
         // 如果已经初始化过，就不再初始化
         if (!CollectionUtils.isEmpty(dictList)) {
