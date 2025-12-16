@@ -60,7 +60,7 @@ public class KeyConcurrentApi {
             for (int j = 0; j < requestsPerThread; j++) {
                 try {
                     // 生成主键
-                    String id = RedisHelper.newKey(key + ":");
+                    String id = RedisHelper.newKey(key);
                 } catch (Exception e) {
                     log.error("生成失败: " + e.getMessage());
                 }
