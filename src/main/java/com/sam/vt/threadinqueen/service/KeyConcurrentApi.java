@@ -53,7 +53,7 @@ public class KeyConcurrentApi {
     }
 
     private static void gen(int requestsPerThread) {
-        log.info("gen运行{}", Thread.currentThread().getName());
+//        log.info("gen运行{}", Thread.currentThread().getName());
         try {
             String key = RedisHelper.newKey("key");
 //            log.info("{}加入{},等待计算", key, Thread.currentThread().getName());
