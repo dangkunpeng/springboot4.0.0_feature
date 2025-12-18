@@ -11,7 +11,7 @@
     <groupId>com.sam</groupId>
     <artifactId>sbv4</artifactId>
     <version>4</version>
-    <name>Spring Boot V4</name>
+    <name>SBV4</name>
     <description>Spring Boot V4 for Spring Boot</description>
     <url/>
     <properties>
